@@ -92,6 +92,7 @@ namespace RSON {
         Value& operator=(const RSON::Value& val);
         Value& operator=(RSON::Value && val);
 
+        Value(std::nullptr_t);
         Value(const bool & val);
 
         Value(const std::int8_t & val);
@@ -114,22 +115,22 @@ namespace RSON {
         Value(Object && val);
         Value(Array && val);
 
-        bool isNull();
-        bool isBool();
-        bool isInt8();
-        bool isInt16();
-        bool isInt32();
-        bool isInt64();
-        bool isUint8();
-        bool isUint16();
-        bool isUint32();
-        bool isUint64();
-        bool isDouble();
-        bool isNumber();
-        bool isString();
-        bool isBinary();
-        bool isObject();
-        bool isArray();
+        bool isNull() const;
+        bool isBool() const;
+        bool isInt8() const;
+        bool isInt16() const;
+        bool isInt32() const;
+        bool isInt64() const;
+        bool isUint8() const;
+        bool isUint16() const;
+        bool isUint32() const;
+        bool isUint64() const;
+        bool isDouble() const;
+        bool isNumber() const;
+        bool isString() const;
+        bool isBinary() const;
+        bool isObject() const;
+        bool isArray() const;
 
         bool & getBool();
         std::int8_t & getInt8();
@@ -146,13 +147,17 @@ namespace RSON {
         Object & getObject();
         Array & getArray();
 
-        std::size_t size();
+        std::size_t size() const;
 
-        Type getType();
+        Type getType() const;
         void setType(Type type);
+
+        std::string toRSON() const;
+        static Value fromRSON(std::string);
     };
 
 
 }
+
 
 #endif // __RSONVALUE__

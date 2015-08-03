@@ -1,6 +1,10 @@
 #include "rson/Value.h"
+#include "rson/Encoder.h"
+#include "rson/Decoder.h"
 
 RSON::Value::Value() {}
+
+RSON::Value::Value(std::nullptr_t) {}
 
 RSON::Value::Value(const RSON::Value & val) : _type{val._type} {
     if(isNumber()){
@@ -105,40 +109,40 @@ RSON::Value::Value(Object && val) : _type{OBJECT}, _object{val} {}
 RSON::Value::Value(Array && val) : _type{ARRAY}, _array{std::make_move_iterator(val.begin()), 
                                            std::make_move_iterator(val.end())} {}
 
-bool RSON::Value::isNull(){
+bool RSON::Value::isNull() const {
     return _type == NULLVALUE;
 }
-bool RSON::Value::isBool(){
+bool RSON::Value::isBool() const {
     return _type == BOOL;
 }
-bool RSON::Value::isInt8(){
+bool RSON::Value::isInt8() const {
     return _type == INT8;
 }
-bool RSON::Value::isInt16(){
+bool RSON::Value::isInt16() const {
     return _type == INT16;
 }
-bool RSON::Value::isInt32(){
+bool RSON::Value::isInt32() const {
     return _type == INT32;
 }
-bool RSON::Value::isInt64(){
+bool RSON::Value::isInt64() const {
     return _type == INT64;
 }
-bool RSON::Value::isUint8(){
+bool RSON::Value::isUint8() const {
     return _type == INT8;
 }
-bool RSON::Value::isUint16(){
+bool RSON::Value::isUint16() const {
     return _type == INT16;
 }
-bool RSON::Value::isUint32(){
+bool RSON::Value::isUint32() const {
     return _type == INT32;
 }
-bool RSON::Value::isUint64(){
+bool RSON::Value::isUint64() const {
     return _type == INT64;
 }
-bool RSON::Value::isDouble(){
+bool RSON::Value::isDouble() const {
     return _type == DOUBLE;
 }
-bool RSON::Value::isNumber(){
+bool RSON::Value::isNumber() const {
     switch(_type){
         case BOOL:
         case INT8:
@@ -157,16 +161,16 @@ bool RSON::Value::isNumber(){
         }
     }
 }
-bool RSON::Value::isString(){
+bool RSON::Value::isString() const {
     return _type == STRING;
 }
-bool RSON::Value::isBinary(){
+bool RSON::Value::isBinary() const {
     return _type == BINARY;
 }
-bool RSON::Value::isObject(){
+bool RSON::Value::isObject() const {
     return _type == OBJECT;
 }
-bool RSON::Value::isArray(){
+bool RSON::Value::isArray() const {
     switch(_type){
         case ARRAY:
         case BOOL_ARRAY:
@@ -205,7 +209,7 @@ const char* RSON::Value::getBinary(){return _string.data();}
 RSON::Object & RSON::Value::getObject(){return _object;}
 RSON::Array & RSON::Value::getArray(){return _array;}
 
-std::size_t RSON::Value::size(){
+std::size_t RSON::Value::size() const {
     if(isArray()){
         return _array.size();
     } else if(isObject()){
@@ -216,6 +220,15 @@ std::size_t RSON::Value::size(){
     return 0;
 }
 
-RSON::Type RSON::Value::getType(){ return _type; }
+RSON::Type RSON::Value::getType() const { return _type; }
 void RSON::Value::setType(RSON::Type type){ _type = type; }
 
+std::string RSON::Value::toRSON() const {
+    RSON::Encoder encoder;
+    return encoder.encode(*this);
+}
+
+RSON::Value RSON::Value::fromRSON(std::string str){
+    RSON::Decoder decoder;
+    return decoder.decode(str);
+} 
