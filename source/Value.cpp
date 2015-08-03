@@ -51,6 +51,7 @@ RSON::Value& RSON::Value::operator=(RSON::Value && val){
     }else if(isString() || isBinary()){
         _string = std::move(val._string);
     }
+    return *this;
 }
 
 RSON::Value::Value(const bool & val) : _type{BOOL} {
@@ -151,8 +152,10 @@ bool RSON::Value::isNumber(){
         case DOUBLE: {
             return true;
         }
+        default: {
+            return false;
+        }
     }
-    return false;
 }
 bool RSON::Value::isString(){
     return _type == STRING;
@@ -181,8 +184,10 @@ bool RSON::Value::isArray(){
         case OBJECT_ARRAY: {
             return true;
         }
+        default: {
+            return false;
+        }
     }
-    return false;
 }
 
 bool & RSON::Value::getBool(){return _numbers.boolValue;}

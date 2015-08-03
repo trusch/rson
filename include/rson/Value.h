@@ -9,8 +9,8 @@
  * @author: Tino Rusch (tino.rusch@webvariants.de)
  */
 
-#ifndef __RSON__
-#define __RSON__
+#ifndef __RSONVALUE__
+#define __RSONVALUE__
 
 #include <string>
 #include <cstdint>
@@ -52,10 +52,16 @@ namespace RSON {
     };
 
     class Value;
+    class Encoder;
+    class Decoder;
+
     typedef std::map<std::string,Value> Object;
     typedef std::deque<Value> Array;
 
     class Value {
+    friend class Encoder;
+    friend class Decoder;
+
     protected:
         union NumberUnion {
             std::uint8_t data[8];
@@ -71,11 +77,11 @@ namespace RSON {
             double        doubleValue;
         } _numbers;
 
+        Type _type = NULLVALUE;
+
         Object _object;
         Array _array;
         std::string _string;
-
-        Type _type = NULLVALUE;
 
     public:
         Value();
@@ -144,13 +150,9 @@ namespace RSON {
 
         Type getType();
         void setType(Type type);
-
-        std::string toRSON() const;
-        static Value fromRSON(std::istream & data); 
-
     };
 
 
 }
 
-#endif // __RSON__
+#endif // __RSONVALUE__
