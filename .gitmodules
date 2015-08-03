@@ -1,8 +1,0 @@
-[submodule "udo"]
-	path = src/udo
-	url = git@github.com:wirsich/udo.git
-	branch = experimental
-[submodule "emil"]
-	path = src/emil
-	url = git@github.com:webvariants/emil.git
-	branch = stable
