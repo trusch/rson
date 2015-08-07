@@ -2,6 +2,7 @@
 #include "rson/Encoder.h"
 #include "rson/Decoder.h"
 
+#include "rson/JSONEncoder.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -9,8 +10,10 @@
 void test(const RSON::Value & val, const std::string & prefix){
 	RSON::Encoder encoder;
 	RSON::Decoder decoder;
+	RSON::JSONEncoder json_encoder;
 	std::string str = encoder.encode(val);
 	std::cout<<prefix<<std::endl;
+	std::cout<<json_encoder.encode(val)<<std::endl;
 	for(std::size_t i=0;i<str.size();i++){
 		std::cout<<(int)(std::uint8_t)str[i]<<" ";
 	}

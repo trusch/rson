@@ -52,15 +52,17 @@ namespace RSON {
     };
 
     class Value;
-    class Encoder;
+/*    class Encoder;
     class Decoder;
-
+*/
     typedef std::map<std::string,Value> Object;
     typedef std::deque<Value> Array;
 
     class Value {
     friend class Encoder;
     friend class Decoder;
+    friend class JSONEncoder;
+    friend class JSONDecoder;
 
     protected:
         union NumberUnion {
